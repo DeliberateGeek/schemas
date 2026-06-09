@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.deliberategeek.com/cross-repo-write-exceptions/v1/cross-repo-write-exceptions.schema.json",
+  "title": "Cross-Repo Write Exceptions",
+  "description": "Per-anchor list of repository name patterns exempt from the cross-repo write convention. Consumed by cross-repo-write-guard.ps1 to decide which sibling repos an anchor session may edit directly without the cross-repo-editor sub-agent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "exceptions"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URL of this schema, enabling editor autocomplete and validation."
+    },
+    "version": {
+      "const": 1,
+      "description": "Schema version of this exceptions file. Currently always 1."
+    },
+    "exceptions": {
+      "type": "array",
+      "description": "The exempt-repo entries. An empty array means no exceptions are declared.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["pattern", "reason"],
+        "properties": {
+          "pattern": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Repository name (or name fragment) this exception applies to, matched against the target repo of a cross-repo write."
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Why direct writes to this repo are exempt from the cross-repo convention. Stated so a future reader can judge whether the exemption still holds."
+          },
+          "added": {
+            "type": "string",
+            "format": "date",
+            "description": "ISO-8601 date (YYYY-MM-DD) the exception was added. Optional."
+          },
+          "issue": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Issue reference that justifies or tracks the exception, e.g. 'DG/DotFiles#147'. Optional."
+          }
+        }
+      }
+    }
+  }
+}
