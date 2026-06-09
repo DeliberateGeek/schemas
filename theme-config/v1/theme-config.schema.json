@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.deliberategeek.com/theme-config/v1/theme-config.schema.json",
+  "title": "Oh My Posh Theme Config",
+  "description": "Maps Windows Terminal profiles to Oh My Posh themes for the smart PowerShell profile. Used to select a per-profile prompt theme, falling back to a default.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["profileThemeMap", "defaultTheme"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URL of this schema, enabling editor autocomplete and validation."
+    },
+    "profileThemeMap": {
+      "type": "object",
+      "description": "Map of Windows Terminal profile GUID to Oh My Posh theme name. Each key is a braced GUID as it appears in the Windows Terminal profile definition; each value is the theme name (without the .omp.json extension).",
+      "propertyNames": {
+        "pattern": "^\\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\\}$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Oh My Posh theme name (matches an *.omp.json file, without the extension)."
+      }
+    },
+    "defaultTheme": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Theme name used when the active Windows Terminal profile has no entry in profileThemeMap."
+    }
+  }
+}
