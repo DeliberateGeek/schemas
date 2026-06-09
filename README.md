@@ -1,19 +1,19 @@
-# {{WORKSPACE_NAME}}
+# schemas
 
-{{WORKSPACE_DESCRIPTION}}
+Org-published JSON Schemas for the DeliberateGeek org via GitHub Pages.
 
 ## Getting Started
 
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd {{WORKSPACE_NAME}}
+cd schemas
 ```
 
 ## Project Structure
 
 ```
-{{WORKSPACE_NAME}}/
+schemas/
 ├── docs/         # Project documentation
 ├── .editorconfig # Baseline editor settings
 ├── .gitmessage   # Commit message template

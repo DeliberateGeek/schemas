@@ -1,6 +1,6 @@
-# Copilot Instructions — {{WORKSPACE_NAME}}
+# Copilot Instructions — schemas
 
-{{WORKSPACE_DESCRIPTION}}
+Org-published JSON Schemas for the DeliberateGeek org via GitHub Pages.
 
 ## Documentation
 

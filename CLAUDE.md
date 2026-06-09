@@ -1,6 +1,6 @@
-# CLAUDE.md — {{WORKSPACE_NAME}}
+# CLAUDE.md — schemas
 
-{{WORKSPACE_DESCRIPTION}}
+Org-published JSON Schemas for the DeliberateGeek org via GitHub Pages.
 
 > **Repo metadata** — `TemplateBase` itself is part of the **Workspace Toolkit** initiative (DG #18, https://github.com/orgs/DeliberateGeek/projects/18). The canonical `## Initiative` schema isn't applied to this CLAUDE.md because this file is **template content** copied into child workspaces; each child declares its own initiative membership. (This note ships in the template and should be replaced or removed in a real workspace.)
 
