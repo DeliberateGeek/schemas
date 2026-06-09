@@ -1,0 +1,35 @@
+# GitVersion configuration — branch-agnostic auto-versioning.
+#
+# GitVersion is a pure calculator: it reads git history + tags and emits a SemVer
+# number; it does not create or push tags (build.yml does — see
+# .github/workflows/build.yml). One config serves all branching models, because
+# stable vX.Y.Z tags are always cut from `main`.
+#
+# How releases are cut, how the bump is chosen, and why — see
+# docs/version-management.md.
+#
+# Reference: https://gitversion.net/docs/reference/configuration
+
+mode: ContinuousDelivery
+
+# Enables commit-message bump signalling (the inference regexes and the +semver:
+# override below). Leave Enabled.
+commit-message-incrementing: Enabled
+
+# The branch increment is the floor; the released bump is max(floor, commit-signal).
+# Keep at Patch — raising it forces a minimum minor and breaks inference.
+# (Why: docs/version-management.md § Invariant.)
+increment: Patch
+
+# Bump inference (Conventional-Commits type → SemVer). Patch is the unwritten floor:
+# anything not matched below falls through to it. Matched case-insensitively.
+# FEAT: → minor   (also: +semver: minor|feature)
+minor-version-bump-message: '^(feat)(\([\w\s-]*\))?:|\+semver:\s?(minor|feature)'
+# <type>!: or a BREAKING[ -]CHANGE: footer → major   (also: +semver: major|breaking)
+major-version-bump-message: '(?<=^|\n)(\w+)(\([\w\s-]*\))?!:|^(\w+)(\([\w\s-]*\))?:.*\n\n((.+\n)+\n)?BREAKING[ -]CHANGE:\s.+|\+semver:\s?(major|breaking)'
+
+branches:
+  main:
+    # Stable line. Release cut on `main` produces the vX.Y.Z that build.yml tags.
+    increment: Patch
+    is-release-branch: true

@@ -1,0 +1,49 @@
+
+# ──────────────────────────────────────────────────────────────────
+# This template is for HUMAN-authored commit messages only.
+# AI-authored commit messages follow ~/.claude/commit-workflow-checklist.md
+# (mandatory two-line AI attribution; no decision matrices apply here).
+# ──────────────────────────────────────────────────────────────────
+# UPPERCASE Conventional Commits
+# ──────────────────────────────────────────────────────────────────
+#
+# Format:
+#   TYPE(scope): description
+#
+#   [optional body]
+#
+#   [optional footer(s)]
+#
+# ──────────────────────────────────────────────────────────────────
+# TYPE (required, UPPERCASE) — pick one:
+#
+#   BUILD     Changes to build system or external dependencies
+#   CHORE     Routine tasks, maintenance, housekeeping
+#   CI        Changes to CI configuration
+#   DOCS      Documentation only
+#   FEAT      New feature
+#   FIX       Bug fix
+#   MERGE     Merge commit
+#   PERF      Performance improvement
+#   REFACTOR  Code change that neither fixes a bug nor adds a feature
+#   STYLE     Formatting, whitespace (no logic change)
+#   TEST      Adding or correcting tests
+#   WIP       Work in progress (interim commit, will be squashed)
+#
+# ──────────────────────────────────────────────────────────────────
+# SCOPE (optional) — area of the project affected:
+#   e.g., (docs), (config), (build), (deps)
+#
+# BREAKING CHANGES — add ! before the colon:
+#   e.g., FEAT(api)!: remove deprecated endpoint
+#
+# ──────────────────────────────────────────────────────────────────
+# BODY (optional) — explain what and why, not how.
+#   Separate from description with a blank line.
+#
+# FOOTER (optional) — references, breaking change details:
+#   e.g., References #42         (default — links without auto-closing)
+#   e.g., Closes #42             (only when this merge IS the issue's completion signal)
+#   e.g., BREAKING-CHANGE: description of what broke
+#
+# ──────────────────────────────────────────────────────────────────

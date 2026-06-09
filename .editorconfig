@@ -1,0 +1,30 @@
+# Baseline EditorConfig — language-agnostic defaults for any workspace.
+# See https://editorconfig.org for the file format.
+# Add language-specific sections (or apply a capability layer) as the project
+# takes shape.
+
+# Top-most EditorConfig file
+root = true
+
+# All files
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+end_of_line = lf
+max_line_length = 120
+
+# Data / config formats conventionally use 2-space indentation
+[*.{json,json5,yml,yaml,toml}]
+indent_size = 2
+
+# Markdown — preserve trailing spaces (hard line breaks) and don't cap length
+[*.{md,markdown}]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# Windows batch files require CRLF
+[*.{cmd,bat}]
+end_of_line = crlf

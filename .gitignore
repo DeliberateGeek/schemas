@@ -1,0 +1,32 @@
+# Generic baseline ignores. Add language/tool-specific patterns as the project
+# takes shape, or let a capability layer contribute them.
+
+# OS cruft
+.DS_Store
+Thumbs.db
+~$*
+*~
+
+# Editor / IDE local state
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+
+# Logs and temp
+*.log
+*.tmp
+
+# Environment / secrets — never commit
+*.env
+.env
+.env.*
+!.env.example
+
+# Claude Code session markers and temporary files
+.claude/last-session-start.json
+.claude/last-session-end.json
+.claude/session-annotations.json
