@@ -76,6 +76,10 @@
         "deliverBranchingDocs": {
           "type": "boolean",
           "description": "Whether to deliver branching-guidelines docs into the created workspace."
+        },
+        "branchingLayer": {
+          "type": "string",
+          "description": "Optional override for the branching layer name to apply. When omitted, the layer is derived from the model as \"branching-<model>\". A content/vault template sets this to \"branching-content-vault\" because its git topology is trunk-based but it ships the content-repo branching layer to a vault path rather than the code-repo docs/ path."
         }
       }
     },
