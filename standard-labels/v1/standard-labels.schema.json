@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.deliberategeek.com/standard-labels/v1/standard-labels.schema.json",
+  "title": "Standard Label Definitions",
+  "description": "Canonical GitHub label definitions for WorkspaceToolkit repos (docs/standard-labels.json). Consumed by the standardize-labels skill at runtime.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["description", "categories", "labels"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URL of this schema, enabling editor autocomplete and validation."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Summary of what this label set is and how it is used."
+    },
+    "categories": {
+      "type": "array",
+      "description": "The label categories. Each label's 'category' must match one of these names.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "title", "description"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Category identifier, referenced by each label's 'category' field."
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Human-readable category heading."
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "description": "What this category of labels conveys."
+          }
+        }
+      }
+    },
+    "labels": {
+      "type": "array",
+      "description": "The label definitions.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "color", "description", "category", "default"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Label name as it appears in GitHub."
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{6}$",
+            "description": "Six-digit hex color (no leading '#')."
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Label description shown in GitHub."
+          },
+          "category": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The category this label belongs to; must match a 'categories' entry's name."
+          },
+          "default": {
+            "type": "boolean",
+            "description": "Whether this is a stock GitHub default label (retained with a consistent color) rather than a custom one."
+          }
+        }
+      }
+    }
+  }
+}

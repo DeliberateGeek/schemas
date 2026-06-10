@@ -1,0 +1,187 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.deliberategeek.com/manifest/v1/manifest.schema.json",
+  "title": "Workspace Creation Manifest",
+  "description": "Contract for a WorkspaceToolkit workspace-creation manifest (manifests/<type>.json). Consumed by the new-workspace tooling to scaffold a workspace from its template repo.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "displayName",
+    "description",
+    "repo",
+    "workspaceType",
+    "branching",
+    "tokens",
+    "postCreateSteps",
+    "templateOnlyPaths",
+    "prerequisites",
+    "summary"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URL of this schema, enabling editor autocomplete and validation."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Manifest identifier, matching the manifests/<name>.json file name."
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable workspace name shown to the operator."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Summary of the workspace this manifest creates."
+    },
+    "repo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "name"],
+      "description": "The GitHub template repository this workspace is created from.",
+      "properties": {
+        "owner": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 }
+      }
+    },
+    "workspaceType": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Workspace category (e.g. 'base', 'code', 'content')."
+    },
+    "branching": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model", "allowedBranchingModels", "deliverBranchingDocs"],
+      "description": "Branching model configuration for the created workspace.",
+      "properties": {
+        "model": {
+          "type": "string",
+          "enum": ["trunk-based", "github-flow", "gitflow"],
+          "description": "The default branching model for the workspace."
+        },
+        "allowedBranchingModels": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Branching models the operator may choose from for this workspace.",
+          "items": {
+            "type": "string",
+            "enum": ["trunk-based", "github-flow", "gitflow"]
+          }
+        },
+        "deliverBranchingDocs": {
+          "type": "boolean",
+          "description": "Whether to deliver branching-guidelines docs into the created workspace."
+        }
+      }
+    },
+    "libraries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["families"],
+      "description": "Optional. Selectable library families (e.g. IoC, testing, mocking) offered during workspace creation. Present only on manifests that offer library choices.",
+      "properties": {
+        "families": {
+          "type": "object",
+          "description": "Map of family name to its selectable members and default.",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["members", "default", "optional"],
+            "properties": {
+              "members": {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": "string", "minLength": 1 },
+                "description": "Selectable library names in this family."
+              },
+              "default": {
+                "type": ["string", "null"],
+                "description": "The default member, or null when the family is optional with no default."
+              },
+              "optional": {
+                "type": "boolean",
+                "description": "Whether selecting a member of this family is optional."
+              }
+            }
+          }
+        }
+      }
+    },
+    "tokens": {
+      "type": "array",
+      "description": "Substitution tokens resolved during workspace creation.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "required"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Token name (e.g. WORKSPACE_NAME)."
+          },
+          "required": {
+            "type": "boolean",
+            "description": "Whether a value must be supplied for this token."
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Where the token value comes from (e.g. 'parameter:Name'). Optional."
+          },
+          "default": {
+            "type": "string",
+            "description": "Default value when none is supplied. Optional."
+          },
+          "prompt": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Prompt text shown to the operator when soliciting the value. Optional."
+          }
+        }
+      }
+    },
+    "postCreateSteps": {
+      "type": "array",
+      "description": "Named post-creation steps to run after scaffolding. Empty array means none.",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "templateOnlyPaths": {
+      "type": "array",
+      "description": "Paths that exist in the template repo but must not be copied into a created workspace.",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "prerequisites": {
+      "type": "array",
+      "description": "External tools required to create or use this workspace.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "check", "remediation"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "description": "Tool name." },
+          "check": { "type": "string", "minLength": 1, "description": "Shell command that verifies the tool is present." },
+          "remediation": { "type": "string", "minLength": 1, "description": "Command or instruction to install the tool if the check fails." }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nextSteps"],
+      "description": "Post-creation guidance shown to the operator.",
+      "properties": {
+        "nextSteps": {
+          "type": "array",
+          "description": "Ordered list of next-step instructions.",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}
