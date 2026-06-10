@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.deliberategeek.com/layer/v1/layer.schema.json",
+  "title": "Workspace Capability Layer",
+  "description": "Contract for a WorkspaceToolkit capability layer (layers/<name>/layer.json). Consumed by the add-layer and new-workspace tooling to resolve layer dependencies, compatibility, and prerequisites.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "description", "dependencies", "compatibleWith", "prerequisites"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URL of this schema, enabling editor autocomplete and validation."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Layer identifier, matching the layers/<name>/ directory name."
+    },
+    "family": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Mutually-exclusive selection group this layer belongs to (e.g. 'ioc', 'testing', 'mocking'). Only one layer per family is applied to a workspace. Optional — present only on layers that participate in a family."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable summary of what the layer provides."
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "Names of other layers that must be applied before this one. Empty array means no dependencies.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "compatibleWith": {
+      "type": "array",
+      "description": "Workspace types (manifest names, e.g. 'base', 'dotnet') this layer can be applied to.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "prerequisites": {
+      "type": "array",
+      "description": "External tools required for this layer. Empty array means none.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "check", "install"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Tool name (may include a parenthetical note on scope)."
+          },
+          "check": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Shell command that verifies the tool is present (non-zero exit means missing)."
+          },
+          "install": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Command that installs the tool."
+          },
+          "remediation": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Human-readable remediation guidance, often expanding on 'install' with alternatives. Optional."
+          }
+        }
+      }
+    }
+  }
+}
