@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.deliberategeek.com/app-catalog/v1/app-catalog.schema.json",
+  "title": "Windows Bootstrap App Catalog",
+  "description": "Contract for the WindowsBootstrap INSTALL catalog: the governed superset of applications to install on a Windows machine (Universal + Optional), with tags and per-entry metadata. Consumed by Test-Catalog (in-box Test-Json -Schema) at authoring time and by the compiler that emits a winget configure (.winget) file. See WindowsBootstrap docs/design/app-catalog.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["entries"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URL of this schema, enabling editor autocomplete and validation."
+    },
+    "entries": {
+      "type": "array",
+      "description": "The catalog entries. A flat array of installable apps/tooling; the compiler transforms each entry into a .winget resource.",
+      "items": { "$ref": "#/$defs/entry" }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "source", "isOptional"],
+      "description": "A single catalog entry. Conditional requirements: a winget-source entry must carry 'package'; a recipe-source entry must carry 'recipe'; 'defaultFor' is permitted only on an Optional entry.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(winget|recipe)-.+",
+          "description": "Stable, hand-minted primary key and selection id. Source-prefixed ('<source>-'); the prefix is a legible mirror of 'source', never independent data. Opaque to machinery — nothing parses it; selection is by this id."
+        },
+        "source": {
+          "type": "string",
+          "enum": ["winget", "recipe"],
+          "description": "How the entry resolves. 'winget' and 'recipe' are defined this pass; the field is reserved-extensible (a future 'psmodule' etc. is a localized addition to this enum)."
+        },
+        "package": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The winget PackageIdentifier — the locator the emitter reads (it never parses 'id'). Required for source 'winget'."
+        },
+        "recipe": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Pointer to a named recipe fragment (an engine-architecture mechanism; the compiler inlines it). Required for source 'recipe'."
+        },
+        "isOptional": {
+          "type": "boolean",
+          "description": "false = Universal (always included by the compiler; no choice offered). true = Optional (included only if its id is in the selection list)."
+        },
+        "defaultFor": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["home", "work"] },
+          "uniqueItems": true,
+          "description": "Environments in which an Optional entry's selection checkbox starts ticked (e.g. ['home','work'], ['work']). Absent = unticked everywhere (pre-ticking is opt-in). Only valid when isOptional is true."
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Pin to an exact version. Absent = install whatever is current at install time (then static; re-converge does not upgrade it). A pin compiles to two resources (WinGetPackage + a gating winget pin add Script)."
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Selection-UI label override, for cryptic ids (e.g. a Store product id). Absent → the UI derives the label from id/package."
+        },
+        "note": {
+          "type": "string",
+          "description": "Free-text per-entry annotation (JSON has no comments)."
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": []
+          },
+          "uniqueItems": true,
+          "description": "Flat, many-to-many categorization of Optional apps for the selection UX. Constrained to the closed declared vocabulary (the enum below). Selection is still by id, never by tag (the compiler contract). The vocabulary starts empty and grows as real Optional apps appear; adding a tag edits this enum (a deliberate, reviewed act) — distinct from adding an entry, which edits the catalog file. Default empty."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "source": { "const": "winget" } },
+            "required": ["source"]
+          },
+          "then": { "required": ["package"] }
+        },
+        {
+          "if": {
+            "properties": { "source": { "const": "recipe" } },
+            "required": ["source"]
+          },
+          "then": { "required": ["recipe"] }
+        },
+        {
+          "if": {
+            "properties": { "isOptional": { "const": false } },
+            "required": ["isOptional"]
+          },
+          "then": {
+            "not": { "required": ["defaultFor"] }
+          }
+        }
+      ]
+    }
+  }
+}
