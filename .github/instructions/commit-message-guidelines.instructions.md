@@ -4,7 +4,7 @@ applyTo: "**"
 
 # Commit Message Guidelines
 
-This project uses UPPERCASE Conventional Commits. See `docs/commit-message-guidelines.md` for the canonical specification — this file mirrors that content for GitHub Copilot. AI-authored commit messages follow `~/.claude/commit-workflow-checklist.md` (the global checklist); this file does not redefine universal types, AI attribution, or the approval workflow.
+This project uses UPPERCASE Conventional Commits. See `docs/commit-message-guidelines.md` for the canonical specification — this file mirrors that content for GitHub Copilot. AI-authored commit messages follow `~/.claude/commit-workflow-checklist.md` (the global checklist); this file does not redefine universal types or the approval workflow.
 
 ## Format
 
@@ -27,7 +27,7 @@ optional footer
 
 ## Repo-Specific Types (extend the universal set)
 
-The universal types (defined in the global `commit-workflow-checklist.md`) are always available. This generic base workspace adds **no** repo-specific types yet — add them here if the project develops a need (e.g., `BUILD`, `CI`, `PERF`, `TEST` once a build or test pipeline exists).
+The universal types (defined in the global `commit-workflow-checklist.md`) are always available. This generic base workspace adds **no** repo-specific types yet — add them here if the project develops a need (e.g., `BUILD`, `PERF`, `TEST` once a build or test pipeline exists).
 
 ## Approved Scopes
 
