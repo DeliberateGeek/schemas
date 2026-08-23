@@ -16,7 +16,6 @@ cd schemas
 schemas/
 ├── docs/         # Project documentation
 ├── .editorconfig # Baseline editor settings
-├── .gitmessage   # Commit message template
 └── README.md     # This file
 ```
 

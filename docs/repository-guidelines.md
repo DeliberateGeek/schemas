@@ -9,7 +9,6 @@ This document describes the baseline standards for managing this repository.
 ├── .editorconfig                # Baseline editor settings (root)
 ├── .gitattributes               # Line-ending and diff normalization
 ├── .gitignore                   # Ignored paths
-├── .gitmessage                  # Commit message template
 ├── .github/                     # GitHub automation and AI tool instructions
 │   ├── copilot-instructions.md
 │   └── instructions/
@@ -41,8 +40,7 @@ See the [official EditorConfig site](https://editorconfig.org/) for the format.
 ## Commit Messages
 
 All commit messages follow the UPPERCASE Conventional Commits specification —
-see [commit-message-guidelines.md](commit-message-guidelines.md). The
-`.gitmessage` file at the repository root is the commit template.
+see [commit-message-guidelines.md](commit-message-guidelines.md).
 
 ## Branching
 

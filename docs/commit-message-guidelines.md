@@ -2,7 +2,7 @@
 
 This file defines this workspace's **additions** to the universal commit types
 and any workspace-specific scopes. The universal types and all other commit
-rules (format, attribution, workflow, approval gate) are defined in the global
+rules (format, workflow, approval gate) are defined in the global
 `commit-workflow-checklist.md`. Repo-local types **extend** the universal set;
 this file MUST NOT re-list universal types.
 
@@ -10,7 +10,7 @@ this file MUST NOT re-list universal types.
 
 _None yet._ This is a generic base workspace — it adds no language- or
 tool-specific commit types beyond the universal set. Add rows here if the
-project develops a need (e.g., `BUILD`, `CI`, `PERF`, `TEST` once a build or
+project develops a need (e.g., `BUILD`, `PERF`, `TEST` once a build or
 test pipeline exists).
 
 ## Approved Scopes
